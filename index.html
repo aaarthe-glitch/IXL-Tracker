@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IXL Algebra: 24-Week Daily Plan</title>
+<style>
+:root{--bg:#fafaf7;--fg:#222;--mut:#666;--card:#fff;--bd:#ddd;--ac:#2f7d32;--hl:#eef6ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171a17;--fg:#e8e8e3;--mut:#9a9a94;--card:#202420;--bd:#383d38;--ac:#6fbf73;--hl:#243024}}
+:root[data-theme="dark"]{--bg:#171a17;--fg:#e8e8e3;--mut:#9a9a94;--card:#202420;--bd:#383d38;--ac:#6fbf73;--hl:#243024}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 12px}
+.rules{background:var(--hl);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px}
+.bar{height:8px;background:var(--bd);border-radius:4px;overflow:hidden;margin:6px 0 16px}.bar i{display:block;height:100%;width:0;background:var(--ac)}
+details{background:var(--card);border:1px solid var(--bd);border-radius:8px;margin-bottom:10px}
+summary{cursor:pointer;padding:10px 14px;font-weight:600}summary span{color:var(--mut);font-weight:400;font-size:13px;margin-left:6px}
+.wk{padding:0 14px 12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{border:1px solid var(--bd);padding:6px 8px;text-align:left;vertical-align:top;font-size:14px}
+th{background:var(--hl)}
+label{display:inline-flex;align-items:center;gap:4px;margin:2px 8px 2px 0;white-space:nowrap}
+input{accent-color:var(--ac);width:16px;height:16px}
+.fr{color:var(--mut);font-size:13px}
+button{font:inherit;padding:6px 12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:6px;cursor:pointer}
+@media print{details{break-inside:avoid}details>*{display:block!important}.noprint{display:none}body{background:#fff;color:#000}}
+</style></head><body><main>
+<h1>IXL Algebra: 24-Week Daily Plan</h1>
+<p class="sub">Two 30-min sessions a day, Mon to Fri, with Saturday as catch-up and Sunday off. Codes match the IXL section letters and skill numbers.</p>
+<div class="rules"><b>Daily:</b> Morning 5 min redo one skill under 80, then new skills. Evening: finish and improve scores, one Alcumus problem, tick the boxes, check tomorrow. <b>Rules:</b> same times every day, never miss twice, missed work moves to Saturday, a skill counts at SmartScore 80+.</div>
+<div class="noprint"><b id="pct">0%</b> done <div class="bar"><i id="fill"></i></div>
+<button onclick="window.print()">Print</button> <button onclick="if(confirm('Clear all ticks?')){try{localStorage.removeItem('ixl24')}catch(e){}location.reload()}">Reset</button></div>
+<div id="out" style="margin-top:14px"></div>
+</main>
+<script>
+var W=[
+["Repair: A to C","A7,A8,B1,B2,C9-12","Re-attempt anything under 80"],
+["Repair: C to E","C2,C13,C15-18,D2,D3,D6-8,E1","Re-attempt anything under 80"],
+["Repair: E and F","E2-7,F5-10","Checkpoint: Units and quantities"],
+["Finish F, then G and H","F11-15,G4,H1-5","Checkpoint: Solve linear equations and inequalities"],
+["I, J, K","I2-5,J2-6,K1-5","Mixed review"],
+["Linear equations","L2,L4-20","Mixed review"],
+["Function concepts","M1-17","3 Checkpoints (M)"],
+["Linear functions","N2,N4-13","Mixed review"],
+["Systems of equations","O2-15","Mixed review"],
+["Inequalities and piecewise","P1-7,Q1-2","Checkpoint: Systems of equations and inequalities"],
+["Integer exponents","R2-14","Mixed review"],
+["Rational exponents and scientific notation","S1-6,T1-7","Mixed review"],
+["Sequences","U1-12","Checkpoint: Sequences"],
+["Exponential functions","V1-11","Mixed review"],
+["Polynomials","W1-4,W8-13,W15","Checkpoint: Polynomial operations"],
+["Factor polynomials","X1-10","Mixed review"],
+["Quadratic functions","Y1-15","Mixed review"],
+["Quadratic equations","Z1-10","Checkpoint: Quadratic equations"],
+["Linear, quadratic, exponential","AA1-12","3 Checkpoints (AA)"],
+["Absolute value, function operations, transformations","BB1-6,CC1-3,DD1-6","Checkpoints: BB, CC, DD"],
+["Radicals","EE1-9,FF1-7","Checkpoints: EE, FF"],
+["Rational expressions and data graphs","GG1-5,HH1-11","Checkpoint: HH"],
+["Statistics","II1-8,JJ1-12","Checkpoints: II, JJ (2)"],
+["Probability, matrices, final review","KK1-8,LL1-7","Final review of the weakest skills"]];
+var S={};try{S=JSON.parse(localStorage.getItem('ixl24')||'{}')}catch(e){}
+function ex(s){var r=[];s.split(',').forEach(function(t){var m=t.match(/^([A-Z]+)(\d+)(?:-(\d+))?$/);var a=+m[2],b=m[3]?+m[3]:a;for(var i=a;i<=b;i++)r.push(m[1]+i)});return r}
+var D=['Mon','Tue','Wed','Thu'],h='',total=0;
+W.forEach(function(w,i){var L=ex(w[1]),n=L.length,b=Math.floor(n/8),x=n%8,p=0,ch=[];
+for(var s=0;s<8;s++){var c=b+(s<x?1:0);ch.push(L.slice(p,p+c));p+=c}
+function box(k,t){total++;return '<label><input type="checkbox" data-k="'+k+'"'+(S[k]?' checked':'')+'>'+t+'</label>'}
+h+='<details'+(i==0?' open':'')+'><summary>Week '+(i+1)+': '+w[0]+'<span>'+n+' skills</span></summary><div class="wk"><table><tr><th></th><th>Morning</th><th>Evening</th></tr>';
+for(var d=0;d<4;d++){h+='<tr><th>'+D[d]+'</th>';for(var s=0;s<2;s++){h+='<td>'+ch[d*2+s].map(function(c){return box(i+'-'+c,c)}).join('')+'</td>'}h+='</tr>'}
+h+='<tr><th>Fri</th><td colspan="2">'+box(i+'-fri',w[2])+'</td></tr><tr><th>Sat</th><td colspan="2">'+box(i+'-sat','Catch-up of any missed work')+'</td></tr></table></div></details>'});
+document.getElementById('out').innerHTML=h;
+function upd(){var c=document.querySelectorAll('input:checked').length,p=Math.round(100*c/total);document.getElementById('pct').textContent=p+'%';document.getElementById('fill').style.width=p+'%'}
+document.getElementById('out').addEventListener('change',function(e){var k=e.target.dataset.k;if(!k)return;if(e.target.checked)S[k]=1;else delete S[k];try{localStorage.setItem('ixl24',JSON.stringify(S))}catch(x){}upd()});
+upd();
+</script></body></html>
